@@ -38,6 +38,7 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
+		// request.setAttribute("속성명", 값);
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
@@ -57,6 +58,7 @@ public class HomeController {
 		// error : 에러 떴을 때만 로그가 찍힌다.
 		// 하위 레벨의 로그들 전부 뜸(ex. trace에서는 debug, warn, info, error 다 뜬다.)
 		return "redirect:/"; // 홈으로 간다.
+		// response.sendRedirect("");
 	}
 	
 	@Autowired EmpMapper dao;

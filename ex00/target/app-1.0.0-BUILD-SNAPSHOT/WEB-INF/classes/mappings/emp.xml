@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.impl.EmpMapper">
+	<!-- Mapper Test 책 p.97 -->
+	<!-- string: alias 되어 있다. String으로 쓰려면 java.lang.String 이런 식으로 경로 다 써줘야 함. -->
+	<select id="getEmp" resultType="emp" parameterType="string">
+		select employee_id,
+			   first_name,
+			   job_id
+		from employees where department_id = #{value}
+	</select>
+	
+<!-- 
+	<select id="getEmp" resultType="map" parameterType="string">
+		select first_name as "firstName",
+			   job_id as "jobId" 
+		from employees where department_id = #{value}
+	</select>
+
+ -->	
+	
+	<select id="getDept" resultType="departments">
+		select * from departments
+	</select>	
+</mapper>
