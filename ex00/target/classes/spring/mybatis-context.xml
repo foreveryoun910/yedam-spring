@@ -23,10 +23,6 @@
 	<!-- new 안 만들어도 되는 bean???? - 컨테이너 등록 -->
 	<!-- <bean id="emp" class="com.yedam.app.Employees" />  -->
 	
-	<!-- 모든 bean 자동으로 컨테이너 등록 , p.58, namespace에서 context 추가 -->
-	<!-- VO class에서 @Component 사용해주면 된다. -->
-	<context:component-scan base-package="com.yedam.app"></context:component-scan>
-	
 	<!-- MapperConfigurer setup for MyBatis Database Layer 
 	 with @MapperScan("boardMapper") in BoardMapper Interface -->
 	<!-- 인터페이스만 만들어 놓으면 알아서 DAO 만들어준다. -->
