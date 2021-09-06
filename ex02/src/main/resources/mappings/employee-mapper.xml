@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.employee.mapper.EmployeeMapper">
+
+	<!-- 전체조회 -->
+	<select id="getListEmp" resultType="EmployeeVO">
+		SELECT * FROM EMPLOYEES_TEST
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="readEmp" resultType="EmployeeVO">
+		SELECT EMPLOYEE_ID
+			  , FIRST_NAME
+			  , LAST_NAME
+			  , EMAIL
+			  , PHONE_NUMBER
+			  , HIRE_DATE
+			  , JOB_ID
+			  , SALARY
+			  , COMMISSION_PCT
+			  , MANAGER_ID
+			  , DEPARTMENT_ID
+		FROM EMPLOYEES_TEST
+		WHERE EMPLOYEE_ID = #{employeeId}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertEmp">
+		<selectKey keyProperty="employee_id" resultType="int" order="BEFORE">
+			SELECT EMPLOYEES_TEST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO EMPLOYEES_TEST(
+			  EMPLOYEE_ID
+			  , FIRST_NAME
+			  , LAST_NAME
+			  , EMAIL
+			  , PHONE_NUMBER
+			  , HIRE_DATE
+			  , JOB_ID		
+		)
+		VALUES(
+			  #{employeeId}
+			  , #{firstName}
+			  , #{lastName}
+			  , #{email}
+			  , #{phoneNumber}
+			  , #{hireDate}
+			  , #{jobId}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateEmp">
+		UPDATE EMPLOYEES_TEST
+		SET EMAIL = #{email}
+			, PHONE_NUMBER = #{phoneNumber}
+			, JOB_ID = #{jobId}
+		WHERE EMPLOYEE_ID = #{employeeId}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteEmp">
+		DELETE EMPLOYEES_TEST
+		WHERE EMPLOYEE_ID = #{employeeId}
+	</delete>
+
+</mapper>

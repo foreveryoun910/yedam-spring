@@ -310,6 +310,9 @@
                             <a href="${pageContext.request.contextPath}/board/list"><i class="fa fa-table fa-fw"></i> Tables</a>
                         </li>
                         <li>
+                            <a href="${pageContext.request.contextPath}/employee/listEmp"><i class="fa fa-table fa-fw"></i> Employees</a>
+                        </li>                        
+                        <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
                         <li>
