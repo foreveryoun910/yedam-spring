@@ -5,12 +5,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yedam.app.board.domain.BoardVO;
-import com.yedam.app.board.service.BoardService;
+import com.yedam.app.board.domain.Criteria;
+import com.yedam.app.board.mapper.BoardMapper;
 
 import lombok.extern.java.Log;
 
@@ -19,10 +19,13 @@ import lombok.extern.java.Log;
 @ContextConfiguration("classpath:/spring/*-context.xml")
 public class BoardMapperClient {
 	
-	@Autowired BoardService boardMapper;
+	@Autowired BoardMapper boardMapper;
 	@Test
 	public void getList() {
-		log.info(boardMapper.getList().toString());
+		Criteria cri = new Criteria(1, 10);
+		cri.setType("T");
+		cri.setKeyword("Java");
+		log.info(boardMapper.getList(cri).toString());
 	}
 	
 	

@@ -12,7 +12,9 @@
 	
 	<div class="panel-heading">Board Read</div>
 		<div class="panel-body">
-			<form role="form" action="modify" method="post" id="frm">
+			<form action="modify" method="post" id="frm">
+				<input type="hidden" name="pageNum" value="${cri.pageNum}">
+				<input type="hidden" name="amount" value="${cri.amount}">
 				<input type="hidden" id="bno" name="bno" value="${board.bno}">
 				<div class="form-group">
 					<label>제목</label><input class="form-control" id="title" name="title" value="${board.title}">
@@ -27,6 +29,7 @@
 				<button type="button" class="btn btn-danger" onclick="frm.action='delete';frm.submit()">삭제</button> <!-- 방법1 -->
 				<!-- 버튼 type="button" 으로 주지 않으면 기본 타입인 submit이 되어서 form의 action인 modify를 실행한다. -->
 				<input class="btn btn-danger" type="submit" formaction="delete" value="삭제"> <!-- 방법2. 이게 최신 방법 -->
+				<a class="btn btn-success" href="list?pageNum=${cri.pageNum}&amount=${cri.amount}">목록으로</a>
 			</form>
 			
 			<!-- 방법3. 아예 form을 하나 새로 만들기 -->
@@ -39,5 +42,9 @@
 
 </div>
 <!-- /.row -->
+
+<script>
+	
+</script>
 
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>
