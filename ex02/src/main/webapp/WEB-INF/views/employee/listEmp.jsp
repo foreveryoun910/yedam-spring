@@ -5,6 +5,26 @@
 
 <%@ include file="/WEB-INF/views/includes/header.jsp"%>
 
+<script>
+	$(document).ready(function(){
+		const actionForm = $('#actionForm');
+		
+		$('.move').on('click', function(e){
+			e.preventDefault();
+			const employeeId = $(this).attr('href');
+			actionForm.append('<input type="hidden" id="employeeId" name="employeeId" value="' + employeeId + '">');
+			actionForm.attr('action', 'getEmp');
+			actionForm.submit();
+		});
+		
+		$('#pageButton a').on('click', function(e){
+			e.preventDefault();
+			const pNo = $(this).attr('href');
+			$('[name="pageNum"]').val(pNo);
+			actionForm.submit();
+		});
+	});
+</script>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -29,7 +49,7 @@
 				<tr>
 					<td>${emp.employeeId}</td>
 					<td>${emp.firstName}</td>
-					<td>${emp.lastName}</td>
+					<td><a class="move" href="${emp.employeeId}">${emp.lastName}</a></td>
 					<td>${emp.email}</td>
 					<td>${emp.phoneNumber}</td>
 					<td><fmt:formatDate value="${emp.hireDate}" pattern="yyyy-MM-dd"/> </td>
@@ -40,7 +60,22 @@
 		</tbody>
 	</table>
 	
+	<form id="actionForm" action="listEmp" method="get">
+		<input type="hidden" id="pageNum" name="pageNum" value="${pageMaker.cri.pageNum}">
+		<input type="hidden" id="amount" name="amount" value="${pageMaker.cri.amount}">
+	</form>
 	
+	<div id="pageButton">
+		<c:if test="${pageMaker.prev}">
+			<a href="${pageMaker.startPage - 1}">prev</a>
+		</c:if>
+		<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
+			<a href="${page}">${page}</a>
+		</c:forEach>
+		<c:if test="${pageMaker.next}">
+			<a href="${pageMaker.endPage + 1}">next</a>
+		</c:if>				
+	</div>
 		
 	<div>
 		<button class="btn btn-success" onclick="location.href='#'">등록</button>

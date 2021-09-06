@@ -2,6 +2,7 @@ package com.yedam.app.employee.service;
 
 import java.util.List;
 
+import com.yedam.app.board.domain.Criteria;
 import com.yedam.app.employee.domain.EmployeeVO;
 
 public interface EmployeeService {
@@ -19,6 +20,9 @@ public interface EmployeeService {
 	public EmployeeVO readEmp(EmployeeVO vo);
 	
 	// 전체조회
-	public List<EmployeeVO> getListEmp();
+	public List<EmployeeVO> getListEmp(Criteria cri);
+	
+	// 전체 데이터 건수 구하기
+	public int getTotalCount(Criteria cri);	
 	
 }

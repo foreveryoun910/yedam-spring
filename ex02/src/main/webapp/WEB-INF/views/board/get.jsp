@@ -38,8 +38,7 @@
 				<button class="btn btn-primary">삭제</button>
 			</form>
 		</div>
-	</div>
-
+</div>
 </div>
 <!-- /.row -->
 
