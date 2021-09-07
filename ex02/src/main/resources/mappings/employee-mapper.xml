@@ -2,10 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.employee.mapper.EmployeeMapper">
 
+	<sql id="criteria">
+	    <trim prefix="(" suffix=") " prefixOverrides="OR">
+	    	<foreach collection="typeArr" item="type">
+	    		<trim prefix="or">
+	    			<choose>
+				    	<when test="type == 'L'.toString()">
+					    	(LAST_NAME LIKE '%' || #{keyword} || '%')
+					    </when>
+					    <when test="type == 'E'.toString()">
+					    	(EMAIL LIKE '%' || #{keyword} || '%')
+					    </when>
+					    <when test="type == 'J'.toString()">
+					    	(JOB_ID LIKE '%' || #{keyword} || '%')
+					    </when>	
+	    			</choose>
+	    		</trim>
+	    	</foreach>
+	    </trim>	
+	</sql>
+
+
 	<!-- total 구하기 -->
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*) FROM EMPLOYEES_TEST
-		WHERE EMPLOYEE_ID > 0
+		<where> 
+		<include refid="criteria"></include>
+		AND EMPLOYEE_ID > 0
+		</where>
 	</select>
 
 	<!-- 전체조회 -->
@@ -25,7 +49,10 @@
 				  , MANAGER_ID
 				  , DEPARTMENT_ID
 			FROM EMPLOYEES_TEST
-			WHERE ROWNUM <![CDATA[<=]]> #{pageNum} * #{amount}
+			<where> 
+			<include refid="criteria"></include>
+			AND ROWNUM <![CDATA[<=]]> #{pageNum} * #{amount}
+			</where>
 		)
 		WHERE RN > (#{pageNum} - 1) * #{amount}
 	</select>
@@ -49,7 +76,7 @@
 	
 	<!-- 등록 -->
 	<insert id="insertEmp">
-		<selectKey keyProperty="employee_id" resultType="int" order="BEFORE">
+		<selectKey keyProperty="employeeId" resultType="int" order="BEFORE">
 			SELECT EMPLOYEES_TEST_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO EMPLOYEES_TEST(
@@ -67,7 +94,7 @@
 			  , #{lastName}
 			  , #{email}
 			  , #{phoneNumber}
-			  , #{hireDate}
+			  , SYSDATE
 			  , #{jobId}
 		)
 	</insert>

@@ -48,21 +48,25 @@ public class EmployeeController {
 	
 	// 수정처리
 	@PostMapping("/modifyEmp")
-	public String modifyEmp(EmployeeVO emp, RedirectAttributes rttr) {
+	public String modifyEmp(EmployeeVO emp, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		int result = employeeService.updateEmp(emp);
 		if(result == 1) {
 			rttr.addAttribute("result", "success");
 		}
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/employee/listEmp";
 	}
 	
 	// 삭제처리
 	@PostMapping("/deleteEmp")
-	public String delete(EmployeeVO emp, RedirectAttributes rttr) {
+	public String delete(EmployeeVO emp, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		int result = employeeService.deleteEmp(emp);
 		if(result == 1) {
 			rttr.addAttribute("result", "success");
 		}
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/employee/listEmp";
 	}
 }

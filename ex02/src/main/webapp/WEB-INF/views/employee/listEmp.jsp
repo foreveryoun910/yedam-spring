@@ -31,6 +31,26 @@
 		<h1 class="page-header">Employee</h1>
 	</div>
 	<!-- /.col-lg-12 -->
+	
+	<div align="right">
+		<form id="actionForm" action="listEmp" method="get">
+			<select name="type" style="height: 26px">
+				<option <c:out value="${empty pageMaker.cri.type ? 'selected':''}"/>>select</option>
+				<option value="L" <c:out value="${pageMaker.cri.type eq 'L' ? 'selected':''}"/>>last_name</option>
+				<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected':''}"/>>email</option>
+				<option value="J" <c:out value="${pageMaker.cri.type eq 'J' ? 'selected':''}"/>>job_id</option>
+				<option value="LE" <c:out value="${pageMaker.cri.type eq 'LE' ? 'selected':''}"/>>last_name or email</option>
+				<option value="EJ" <c:out value="${pageMaker.cri.type eq 'EJ' ? 'selected':''}"/>>email or job_id</option>
+				<option value="LJ" <c:out value="${pageMaker.cri.type eq 'LJ' ? 'selected':''}"/>>last_name or job_id</option>
+			</select>
+			<input id="keyword" name="keyword" value="${pageMaker.cri.keyword}">
+			<input type="hidden" id="pageNum" name="pageNum" value="1">
+			<input type="hidden" id="amount" name="amount" value="${pageMaker.cri.amount}">
+			<button class="btn">검색</button>
+		</form>	
+	</div>
+	<br>
+	
 	<table class="table table-hover" id="board" border="1">
 		<thead>
 			<tr>
@@ -41,7 +61,6 @@
 				<th>phone_number</th>
 				<th>hire_date</th>
 				<th>job_id</th>
-				<th>salary</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,18 +73,12 @@
 					<td>${emp.phoneNumber}</td>
 					<td><fmt:formatDate value="${emp.hireDate}" pattern="yyyy-MM-dd"/> </td>
 					<td>${emp.jobId}</td>
-					<td>${emp.salary}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	
-	<form id="actionForm" action="listEmp" method="get">
-		<input type="hidden" id="pageNum" name="pageNum" value="${pageMaker.cri.pageNum}">
-		<input type="hidden" id="amount" name="amount" value="${pageMaker.cri.amount}">
-	</form>
-	
-	<div id="pageButton">
+	<div id="pageButton" align="center">
 		<c:if test="${pageMaker.prev}">
 			<a href="${pageMaker.startPage - 1}">prev</a>
 		</c:if>
@@ -75,10 +88,10 @@
 		<c:if test="${pageMaker.next}">
 			<a href="${pageMaker.endPage + 1}">next</a>
 		</c:if>				
-	</div>
+	</div><br>
 		
-	<div>
-		<button class="btn btn-success" onclick="location.href='#'">등록</button>
+	<div align="center">
+		<button class="btn btn-success" onclick="location.href='registerEmp'">등록</button>
 	</div>
 </div>
 <!-- /.row -->
