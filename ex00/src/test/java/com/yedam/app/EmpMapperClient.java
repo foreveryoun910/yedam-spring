@@ -1,7 +1,6 @@
 package com.yedam.app;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yedam.app.impl.EmpMapper;
 
 import lombok.extern.java.Log;
@@ -25,8 +26,25 @@ public class EmpMapperClient {
 	@Autowired SqlSessionTemplate mybatis;
 	
 	
-	// SqlSessionTemplate 사용 연습, mybatis.selectList("네임스페이스.아이디", "파라미터(없으면 안 써도 됨)");
+	// JSON TEST
 	@Test
+	public void test1() {
+		ObjectMapper mapper = new ObjectMapper();
+		Employees emp = new Employees();
+		emp.setFirstName("choi");
+		emp.setEmployeeId("100");
+		try {
+			String str = mapper.writeValueAsString(emp);
+			System.out.println("str=================" + str);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	// SqlSessionTemplate 사용 연습, mybatis.selectList("네임스페이스.아이디", "파라미터(없으면 안 써도 됨)");
+	@Test @Ignore
 	public void mybatisTest() {
 		// List<Employees> list = mybatis.selectList("com.yedam.app.impl.EmpMapper.getEmp", "20");
 		List<Departments> list = mybatis.selectList("com.yedam.app.impl.EmpMapper.getDept");

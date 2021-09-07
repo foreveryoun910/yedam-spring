@@ -25,13 +25,13 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>${emp.employeeId}</td>
+				<td>${emp.employeeId}</td> <!--  -->
 				<td>${emp.firstName}</td>
 				<td>${emp.lastName}</td>
-				<td>${emp.email}</td>
-				<td>${emp.phoneNumber}</td>
+				<td>${emp.email}</td> <!--  -->
+				<td>${emp.phoneNumber}</td> <!--  -->
 				<td><fmt:formatDate value="${emp.hireDate}" pattern="yyyy-MM-dd" /></td>
-				<td>${emp.jobId}</td>
+				<td>${emp.jobId}</td> <!--  -->
 				<td>${emp.salary}</td>
 			</tr>
 		</tbody>

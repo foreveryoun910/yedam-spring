@@ -82,7 +82,7 @@
 	const bno = "${board.bno}";
 	$(document).ready(function(){
 		
-		// ==================================================등록처리
+		// 등록처리
 		$('#saveReply').on('click', function(){
 			replyService.add(function(data) { 
 				$('.chat').append(makeLi(data)); 
@@ -104,9 +104,9 @@
 		
 		
 		
-		// ==================================================목록조회
+		// 목록조회
 		// 아무것도 안 쓰면 method : 'get'
-/* 		replyService.getList({bno:bno}, listCallback);
+		replyService.getList({bno:bno}, listCallback);
 		
 		
 		function listCallback(datas) {
@@ -116,24 +116,11 @@
 				str += makeLi(datas[i]);
 			}
 			$('.chat').html(str);
-		} */
+		}
 
 		
-		$.ajax({
-			url: '../reply/',
-			data: {bno:bno},
-			dataType: 'json',
-			success: function(datas){
-				var str = "";
-				for(i=0; i<datas.length; i++){
-					str += makeLi(datas[i]);
-				}
-				$('.chat').html(str);
-			}
-		});
 		
-		
-		// ==================================================리스트 만들기
+		// 리스트 만들기
 		function makeLi(data) {
 			return '<li class="left clearfix">'
 				 + '	<div>'
@@ -145,12 +132,6 @@
 				 + '	</div>'
 				 + '</li>'
 		}
-		
-		
-		
-		
-		// ==================================================수정처리
-		
 		
 		
 	});

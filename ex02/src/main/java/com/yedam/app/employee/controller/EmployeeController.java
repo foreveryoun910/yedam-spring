@@ -28,7 +28,7 @@ public class EmployeeController {
 		model.addAttribute("pageMaker", new PageVO(cri, total));
 	}
 	
-	// 단건조회
+	// 단건조회 ( 수정페이지 )
 	@GetMapping("/getEmp")
 	public void getEmp(Model model, EmployeeVO emp, @ModelAttribute("cri") Criteria cri) {
 		model.addAttribute("emp", employeeService.readEmp(emp));
@@ -45,10 +45,6 @@ public class EmployeeController {
 		rttr.addAttribute("result", emp.getEmployeeId());
 		return "redirect:/employee/listEmp";
 	}
-	
-	// 수정페이지
-	@GetMapping("/modifyEmp")
-	public void modifyEmpForm() {}
 	
 	// 수정처리
 	@PostMapping("/modifyEmp")
