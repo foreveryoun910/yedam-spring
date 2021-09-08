@@ -20,6 +20,8 @@ import lombok.extern.java.Log;
 public class BoardMapperClient {
 	
 	@Autowired BoardMapper boardMapper;
+	
+	
 	@Test
 	public void getList() {
 		Criteria cri = new Criteria(1, 10);

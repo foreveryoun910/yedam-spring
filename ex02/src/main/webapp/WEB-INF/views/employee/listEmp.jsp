@@ -41,7 +41,7 @@
 		
 		<form id="searchForm" action="listEmp" method="get">
 			<select name="type" style="height: 26px">
-				<option <c:out value="${empty pageMaker.cri.type ? 'selected':''}"/>>select</option>
+				<option <c:out value="${empty pageMaker.cri.type ? 'selected':''}"/>>--</option>
 				<option value="L" <c:out value="${pageMaker.cri.type eq 'L' ? 'selected':''}"/>>last_name</option>
 				<option value="E" <c:out value="${pageMaker.cri.type eq 'E' ? 'selected':''}"/>>email</option>
 				<option value="J" <c:out value="${pageMaker.cri.type eq 'J' ? 'selected':''}"/>>job_id</option>

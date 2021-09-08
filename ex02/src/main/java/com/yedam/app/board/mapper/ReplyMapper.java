@@ -24,4 +24,7 @@ public interface ReplyMapper {
 	// 전체조회
 	// 파라미터 두개 이상 넘길 때 @Param 사용
 	public List<ReplyVO> getList(@Param("cri") Criteria cri, @Param("bno") long bno);
+
+	// 해당 게시글의 댓글수
+	public int getCountByBno(long bno);
 }

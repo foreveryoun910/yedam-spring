@@ -140,7 +140,7 @@
 		$('body').on('click','#btnSelect',function(){
 			// var userId = $(this).closest('tr').find('#hidden_userId').val(); // closest : 조상에서만 찾음.
 			// var userId = $(this).parent().parent().data('userId');
-			var userId = $(this).closest('tr').data('userId'); // 나를 기준으로 가장 가까운 tr에서 userid 키의 데이터를 찾아와라.
+			var userId = $(this).closest('tr').data('userid'); // 나를 기준으로 가장 가까운 tr에서 userid 키의 데이터를 찾아와라.
 			//특정 사용자 조회
 			$.ajax({
 				url:'users/'+userId,

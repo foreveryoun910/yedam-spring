@@ -23,6 +23,13 @@
 	</sql>
 
 
+	<!-- 댓글수 업데이트 -->
+	<update id="updateReplyCnt">
+		UPDATE TBL_BOARD
+		SET REPLYCNT = REPLYCNT + #{amount}
+		WHERE BNO = #{bno}
+	</update>
+
 
 	<!-- total 구하기 -->
 	<select id="getTotalCount" resultType="int">
@@ -37,13 +44,12 @@
 						<!-- c:forEach문에서 items -> 여기서는 collection, var -> 여기서는 item -->
 	<select id="getList" resultType="BoardVO">
 			SELECT * FROM (
-			    SELECT /*+ INDEX_DESC(TBL_BOARD PK_BOARD) */ ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDATE
+			    SELECT /*+ INDEX_DESC(TBL_BOARD PK_BOARD) */ ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDATE, REPLYCNT
 			    FROM TBL_BOARD
 			    WHERE
 				<include refid="criteria"></include>
 				<![CDATA[ ROWNUM  <= #{pageNum} * #{amount} ]]>)
 			WHERE RN > (#{pageNum} - 1) * #{amount}
-
 	</select>
 
 	<!-- 단건조회 -->

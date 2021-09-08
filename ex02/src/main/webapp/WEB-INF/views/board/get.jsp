@@ -46,6 +46,7 @@
  	<div class="panel-heading">
  		<form id="replyForm">
  			<input type="hidden" id="bno" name="bno" value="${board.bno}">
+ 			<input type="hidden" id="rno" name="rno" value="${reply.rno}">
  			<input id="replyer" name="replyer" value="user10">
  			<input id="reply" name="reply" size="30">
  			<button type="button" id="saveReply">댓글등록</button>
@@ -74,12 +75,13 @@
 </div>
 
 
-
 <script src="../resources/js/reply.js"></script>
 
 <!-- 여기는 board 폴더니까 ../로 빠져나가서 reply로 -->
 <script>
 	const bno = "${board.bno}";
+	
+	
 	$(document).ready(function(){
 		
 		// ==================================================등록처리
@@ -125,8 +127,8 @@
 			dataType: 'json',
 			success: function(datas){
 				var str = "";
-				for(i=0; i<datas.length; i++){
-					str += makeLi(datas[i]);
+				for(i=0; i<datas.list.length; i++){
+					str += makeLi(datas.list[i]);
 				}
 				$('.chat').html(str);
 			}
@@ -135,12 +137,13 @@
 		
 		// ==================================================리스트 만들기
 		function makeLi(data) {
-			return '<li class="left clearfix">'
+			return '<li data-rno="' + data.rno + '"class="left clearfix">'
 				 + '	<div>'
 				 + '		<div class="header">'
 				 + '			<strong class="primary-font">' + data.replyer + '</strong>'
 				 + '			<small class="pull-right text-muted">' + data.replyDate + '</small>'
 				 + '			<p>' + data.reply + '</p>'
+				 + '			<p align="right"><button id="updateReplyForm">수정</button>&nbsp;<button id="deleteReply">삭제</button></p>'
 				 + '		</div>'
 				 + '	</div>'
 				 + '</li>'
@@ -148,8 +151,50 @@
 		
 		
 		
+		// ==================================================수정처리 (ing)
+		$('body').on('click', '#updateReplyForm', function(){
+			$('.chat').replace(makeLi(), makeLiForm());
+		});
 		
-		// ==================================================수정처리
+		
+		// ==================================================수정폼 (ing)
+		function makeLiForm(data) {
+			return '<li data-rno="' + data.rno + '"class="left clearfix">'
+				 + '	<div>'
+				 + '		<div class="header">'
+				 + '			<strong class="primary-font">' + data.replyer + '</strong>'
+				 + '			<small class="pull-right text-muted">' + data.replyDate + '</small>'
+				 + '			<p><input id="reply" name="reply"></p>'
+				 + '			<p align="right"><button id="updateReply">수정'
+				 + '		</div>'
+				 + '	</div>'
+				 + '</li>'
+		}		
+		
+		
+		// ==================================================삭제처리 (success 안 됨)
+		$('body').on('click', '#deleteReply', function(){
+			var rno = $(this).closest('li').data('rno');
+			var result = confirm('정말로 삭제하시겠습니까?');
+			var li = $(this).closest('li');
+			if(result){
+				$.ajax({
+					url: '../reply/' + rno,
+					type: 'DELETE',
+					dataType: 'json',
+					error:function(xhr,status,msg){
+						console.log("상태값 :" + status + " Http에러메시지 :"+msg);
+					},
+					success: function(xhr){
+						if(xhr == true){
+							console.log(xhr.result);
+							li.remove();
+							alert("삭제완료");
+						}
+					}
+				}); // ajax 끝
+			} // if
+		}); // 삭제버튼 클릭
 		
 		
 		

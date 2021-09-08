@@ -1,0 +1,7 @@
+SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDATE, ( select count(*) from tbl_reply where tbl_reply.bno = a.bno) cnt
+FROM (
+    SELECT /*+ INDEX_DESC(TBL_BOARD PK_BOARD) */ ROWNUM RN, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDATE
+    FROM TBL_BOARD
+    WHERE
+    ROWNUM  <= 20) a
+WHERE RN > 0;

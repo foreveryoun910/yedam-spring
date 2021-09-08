@@ -34,7 +34,7 @@
 			<c:forEach var="board" items="${list}">
 				<tr>
 					<td>${board.bno}</td>
-					<td><a class="move" href="${board.bno}">${board.title}</a></td>
+					<td><a class="move" href="${board.bno}">${board.title}  [ <span style="color: red;">${board.replycnt}</span> ]</a></td>
 					<!-- <td>${each.content}</td> -->
 					<td>${board.writer}</td>
 					<td><fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd" /></td>
@@ -45,7 +45,7 @@
 	</table>
 	
 	<form id="actionForm" action="list" method="get">
-		<select name="type">
+		<select name="type" style="height: 26px;">
 			<option <c:out value="${empty pageMaker.cri.type ? 'selected':''}"/>>선택</option>
 			<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected':''}"/>>제목</option>
 			<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected':''}"/>>내용</option>
