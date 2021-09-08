@@ -34,6 +34,12 @@
 	
 	<div align="right">
 		<form id="actionForm" action="listEmp" method="get">
+			<input type="hidden" id="pageNum" name="pageNum" value="${pageMaker.cri.pageNum}">
+			<input type="hidden" id="amount" name="amount" value="${pageMaker.cri.amount}">
+		</form>
+		
+		
+		<form id="searchForm" action="listEmp" method="get">
 			<select name="type" style="height: 26px">
 				<option <c:out value="${empty pageMaker.cri.type ? 'selected':''}"/>>select</option>
 				<option value="L" <c:out value="${pageMaker.cri.type eq 'L' ? 'selected':''}"/>>last_name</option>
@@ -43,11 +49,10 @@
 				<option value="EJ" <c:out value="${pageMaker.cri.type eq 'EJ' ? 'selected':''}"/>>email or job_id</option>
 				<option value="LJ" <c:out value="${pageMaker.cri.type eq 'LJ' ? 'selected':''}"/>>last_name or job_id</option>
 			</select>
+
 			<input id="keyword" name="keyword" value="${pageMaker.cri.keyword}">
-			<input type="hidden" id="pageNum" name="pageNum" value="1">
-			<input type="hidden" id="amount" name="amount" value="${pageMaker.cri.amount}">
-			<button class="btn">검색</button>
-		</form>	
+			<button class="btn">검색</button>			
+		</form>
 	</div>
 	<br>
 	

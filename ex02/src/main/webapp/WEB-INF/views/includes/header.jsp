@@ -311,7 +311,10 @@
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/employee/listEmp"><i class="fa fa-table fa-fw"></i> Employees</a>
-                        </li>                        
+                        </li>  
+                        <li>
+                            <a href="${pageContext.request.contextPath}/userPage"><i class="fa fa-edit fa-fw"></i> Users</a>
+                        </li>                                              
                         <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
