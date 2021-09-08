@@ -50,6 +50,7 @@
  			<input id="replyer" name="replyer" value="user10">
  			<input id="reply" name="reply" size="30">
  			<button type="button" id="saveReply">댓글등록</button>
+ 			<button type="button" id="updateReply">수정</button>
    		</form>
  	</div>
  </div>
@@ -83,6 +84,8 @@
 	
 	
 	$(document).ready(function(){
+		
+		replyList();
 		
 		// ==================================================등록처리
 		$('#saveReply').on('click', function(){
@@ -120,56 +123,92 @@
 			$('.chat').html(str);
 		} */
 
-		
-		$.ajax({
-			url: '../reply/',
-			data: {bno:bno},
-			dataType: 'json',
-			success: function(datas){
-				var str = "";
-				for(i=0; i<datas.list.length; i++){
-					str += makeLi(datas.list[i]);
+		function replyList(){
+			$.ajax({
+				url: '../reply/',
+				data: {bno:bno},
+				dataType: 'json',
+				success: function(datas){
+					var str = "";
+					for(i=0; i<datas.list.length; i++){
+						str += makeLi(datas.list[i]);
+					}
+					$('.chat').html(str);
 				}
-				$('.chat').html(str);
-			}
-		});
+			});			
+		}
 		
 		
 		// ==================================================리스트 만들기
 		function makeLi(data) {
+			return '<li class="left clearfix">'
+				 + '	<div>'
+				 + '		<div class="header">'
+				 + '			<strong class="primary-font">' + data.replyer + '</strong>'
+				 + '			<small class="pull-right text-muted">' + data.replyDate + '</small>'
+				 + '			<p>' + data.reply + '</p>'
+				 + '			<p align="right"><button id="readReply">보기</button>&nbsp;<button id="deleteReply">삭제</button></p>'
+				 + '		</div>'
+				 + '	</div>'
+				 + '</li>'
+		}
+		
+		// ==================================================리스트 만들기(rno)
+		function makeLiwithRno(data) {
 			return '<li data-rno="' + data.rno + '"class="left clearfix">'
 				 + '	<div>'
 				 + '		<div class="header">'
 				 + '			<strong class="primary-font">' + data.replyer + '</strong>'
 				 + '			<small class="pull-right text-muted">' + data.replyDate + '</small>'
 				 + '			<p>' + data.reply + '</p>'
-				 + '			<p align="right"><button id="updateReplyForm">수정</button>&nbsp;<button id="deleteReply">삭제</button></p>'
-				 + '		</div>'
-				 + '	</div>'
-				 + '</li>'
-		}
-		
-		
-		
-		// ==================================================수정처리 (ing)
-		$('body').on('click', '#updateReplyForm', function(){
-			$('.chat').replace(makeLi(), makeLiForm());
-		});
-		
-		
-		// ==================================================수정폼 (ing)
-		function makeLiForm(data) {
-			return '<li data-rno="' + data.rno + '"class="left clearfix">'
-				 + '	<div>'
-				 + '		<div class="header">'
-				 + '			<strong class="primary-font">' + data.replyer + '</strong>'
-				 + '			<small class="pull-right text-muted">' + data.replyDate + '</small>'
-				 + '			<p><input id="reply" name="reply"></p>'
-				 + '			<p align="right"><button id="updateReply">수정'
+				 + '			<p align="right"><button id="readReply">보기</button>&nbsp;<button id="deleteReply">삭제</button></p>'
 				 + '		</div>'
 				 + '	</div>'
 				 + '</li>'
 		}		
+		
+		
+		// ==================================================단건조회 (ing)
+		$('body').on('click', '#readReply', function(){
+			var rno = $(this).closest('li').data('rno');
+			$.ajax({
+				uri: '../reply/' + rno,
+				type: 'GET',
+				dataType: 'json',
+				error:function(xhr,status,msg){
+					alert("상태값 :" + status + " Http에러메시지 :"+msg);
+				},
+				success: replySelectResult
+			});
+		});		
+		
+		//사용자 조회 응답
+		function replySelectResult(reply) {
+			$('input:text[name="replyer"]').val(reply.replyer);
+			$('input:text[name="reply"]').val(reply.reply);
+		}//replySelectResult
+		
+		
+		// ==================================================수정처리 (ing)
+		$('body').on('click', '#updateReply', function(){
+			var replyer = $('input:text[name="replyer"]').val();
+			var reply = $('input:text[name="reply"]').val();
+			
+			$.ajax({
+				url: '../reply/',
+				type: 'put',
+				dataType: 'json',
+				data: JSON.stringify({ replyer: replyer, reply: reply }),
+			    contentType: 'application/json',
+			    error: function(xhr,status,msg){
+					alert("상태값 :" + status + " Http에러메시지 :"+msg);
+				},
+				success: function(data){
+					replyList();
+				}
+			});
+		});
+		
 		
 		
 		// ==================================================삭제처리
