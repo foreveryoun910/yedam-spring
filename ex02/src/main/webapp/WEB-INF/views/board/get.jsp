@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ include file="/WEB-INF/views/includes/header.jsp"%>
 
@@ -21,6 +22,12 @@
 				<label>내용</label><textarea class="form-control" id="content" name="content" rows="3">${board.content}</textarea>
 			</div>
 			<div class="form-group">
+				<label>첨부파일</label>
+				<c:forEach items="${board.attachList}" var="attach">
+					<a href="download?uuid=${attach.uuid}">${attach.fileName}</a>
+				</c:forEach>
+			</div>
+			<div class="form-group">
 				<label>작성자</label><input class="form-control" id="writer" name="writer" value="${board.writer}">
 			</div>
 			<button class="btn btn-success">수정</button>&nbsp;
@@ -35,6 +42,8 @@
 			<input type="hidden" id="bno" name="bno" value="${board.bno}">
 			<button class="btn btn-primary">삭제</button>
 		</form>
+		
+		
 	</div>
 
 </div>
@@ -46,7 +55,6 @@
  	<div class="panel-heading">
  		<form id="replyForm">
  			<input type="hidden" id="bno" name="bno" value="${board.bno}">
- 			<input type="hidden" id="rno" name="rno" value="${reply.rno}">
  			<input id="replyer" name="replyer" value="user10">
  			<input id="reply" name="reply" size="30">
  			<button type="button" id="saveReply">댓글등록</button>
@@ -106,55 +114,10 @@
 		
 		// append는 제일 뒤에, prepend는 제일 위에 추가한다.
 		
-		
-		
-		
-		// ==================================================목록조회
-		// 아무것도 안 쓰면 method : 'get'
-/* 		replyService.getList({bno:bno}, listCallback);
-		
-		
-		function listCallback(datas) {
-			// console.log(datas);
-			var str = "";
-			for(i=0; i<datas.length; i++){
-				str += makeLi(datas[i]);
-			}
-			$('.chat').html(str);
-		} */
 
-		function replyList(){
-			$.ajax({
-				url: '../reply/',
-				data: {bno:bno},
-				dataType: 'json',
-				success: function(datas){
-					var str = "";
-					for(i=0; i<datas.list.length; i++){
-						str += makeLi(datas.list[i]);
-					}
-					$('.chat').html(str);
-				}
-			});			
-		}
-		
 		
 		// ==================================================리스트 만들기
 		function makeLi(data) {
-			return '<li class="left clearfix">'
-				 + '	<div>'
-				 + '		<div class="header">'
-				 + '			<strong class="primary-font">' + data.replyer + '</strong>'
-				 + '			<small class="pull-right text-muted">' + data.replyDate + '</small>'
-				 + '			<p>' + data.reply + '</p>'
-				 + '			<p align="right"><button id="readReply">보기</button>&nbsp;<button id="deleteReply">삭제</button></p>'
-				 + '		</div>'
-				 + '	</div>'
-				 + '</li>'
-		}
-		
-		// ==================================================리스트 만들기(rno)
-		function makeLiwithRno(data) {
 			return '<li data-rno="' + data.rno + '"class="left clearfix">'
 				 + '	<div>'
 				 + '		<div class="header">'
@@ -238,47 +201,82 @@
 		
 		
 		// ==================================================페이징처리
-		var pageNum = 1;
-		var replyPageFooter = $(".panel-footer");
+	      let pageNum = 1;
+	      let replyPageFooter = $(".panel-footer");
+	      function showReplyPage(replyCnt) {
+	         
+	         let endNum = Math.ceil(pageNum / 10.0 ) * 10 ;
+	         let startNum = endNum - 9;
+
+	         let prev = startNum != 1;
+	         let next = false;
+
+	         if(endNum * 10 >= replyCnt){
+	            endNum = Math.ceil(replyCnt/10.0);
+	         }
+	         if(endNum * 10 < replyCnt){
+	            next = true;
+	         }
+
+	         var str ="<ul class='pagination pull-right'>";
+
+	         if(prev) {
+	            str +="<li class='page-item'><a class='page-link'href='"+(startNum - 1)+ "'>이전</a></li>";
+
+	         }
+
+	         for(let i = startNum ; i <= endNum; i++){
+	            let active = pageNum == i? "active":"";
+
+	            str+= "<li class='page-item "+active+"'><a class='page-link'href='"+i+"'>"+i+"</a></li>";
+
+	         }
+	         if(next){
+	            str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>다음</a></li>";
+	         }
+	         str += "</ul></div>";
+
+	         console.log(str);
+
+	         replyPageFooter.html(str);
+	      }
+
+
 		
-		function showReplyPage(replyCnt){
-			
-			var endNum = Math.ceil(pageNum / 10.0) * 10;
-			var startNum = endNum - 9;
-			
-			var prev = startNum != 1;
-			var next = false;
-			
-			if(endNum * 10 >= replyCnt){
-				endNum = Math.ceil(replyCnt / 10.0);
+		
+		
+		// ==================================================목록조회
+		// 아무것도 안 쓰면 method : 'get'
+/* 		replyService.getList({bno:bno}, listCallback);
+		
+		
+		function listCallback(datas) {
+			// console.log(datas);
+			var str = "";
+			for(i=0; i<datas.length; i++){
+				str += makeLi(datas[i]);
 			}
-			
-			if(endNum * 10 < replyCnt){
-				next = true;
-			}
-			
-			var str = "<ul class='pagination pull-right'>";
-			
-			if(prev){
-				str += "<li class='page-item'><a class='page-link' href='" + (startNum - 1) + "'>Previous</a></li>";
-			}
-			
-			for(var i = startNum ; i <= endNum; i++){
-				var active = pageNum == i ? "active":"";
-				
-				str += "<li class='page-item " + active + " '><a class='page-link' href='" + i + "'>" + i + "</a></li>";
-			}
-			
-			if(next){
-				str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) + "'>Next</a></li>";
-			}
-			
-			str += "</ul></div>";
-			
-			console.log(str);
-			
-			replyPageFooter.html(str);
+			$('.chat').html(str);
+		} */
+
+		function replyList(){
+			$.ajax({
+				url: '../reply/',
+				data: {bno:bno},
+				dataType: 'json',
+				success: function(datas){
+					var str = "";
+					for(i=0; i<datas.list.length; i++){
+						str += makeLi(datas.list[i]);
+					}
+					$('.chat').html(str);
+					
+					showReplyPage(datas.list.replyCnt);
+				}
+			});			
 		}
+		
+				
 		
 	});
 </script>

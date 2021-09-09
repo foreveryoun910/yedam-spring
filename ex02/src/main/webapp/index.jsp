@@ -8,6 +8,12 @@
                         <h1 class="page-header">Blank</h1>
                     </div>
                     <!-- /.col-lg-12 -->
+                    
+                    <!-- 톰캣 버전 (Servlet Spec) 확인 -->
+                    <%=application.getMajorVersion() %>
+                    <%=application.getMinorVersion() %>
+                    
+                    
                 </div>
                 <!-- /.row -->
                 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.board.mapper.BoardAttachMapper">
+
+	<insert id="insert">
+		INSERT INTO TBL_ATTACH 
+				    (UUID
+				    , UPLOADPATH
+				    , FILENAME
+				    , FILETYPE
+				    , BNO)
+		VALUES (#{uuid}
+				, #{uploadPath}
+				, #{fileName}
+				, #{fileType}
+				, #{bno})
+	</insert>
+
+
+	<!-- 첨부파일 삭제 -->
+	<delete id="delete">
+		DELETE FROM TBL_ATTACH WHERE UUID = #{uuid}
+	</delete>
+
+	<!-- 글 삭제하면 첨부파일도 삭제되도록 -->
+	<delete id="deleteAll">
+		DELETE TBL_ATTACH WHERE BNO = #{bno}
+	</delete>
+
+
+	<!-- 게시글 번호로 첨부파일 가져와서 보여주기 -->
+	<select id="findByBno" resultType="BoardAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE BNO = #{bno}
+	</select>
+
+	<!-- 오래된 첨부파일 조회 -->
+	<select id="getOldFiles" resultType="BoardAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE UPLOADPATH = TO_CHAR(SYSDATE -1 ,'YYYY\MM\DD')
+	</select>
+	
+	<select id="readAttach" resultType="BoardAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE UUID = #{uuid}
+	</select>	
+
+</mapper>

@@ -52,4 +52,12 @@
 	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
 	
+	<!-- 파일업로드 관련 설정 -->
+	<!-- 톰캣에서 파일업로드 제공 다 해주기 때문에 따로 라이브러리 의존 안 시키고 설정만 해 주면 된다. -->
+	<!-- MultipartResolver 설정-->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000" />
+		<beans:property name="maxInMemorySize" value="1000000" /> <!-- value 사이즈 이하면 임시파일 만드는 그런 느낌? -->
+	</beans:bean>	
+	
 </beans:beans>
