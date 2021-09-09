@@ -12,8 +12,8 @@ public class ReplyVO {
 	private long bno;
 	private String reply;
 	private String replyer;
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	// @JsonFormat(pattern = "yyyy/MM/dd")
 	private Date replyDate;
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	// @JsonFormat(pattern = "yyyy/MM/dd")
 	private Date updateDate;
 }

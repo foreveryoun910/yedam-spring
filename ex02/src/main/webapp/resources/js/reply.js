@@ -19,17 +19,21 @@ const replyService = (function(){
 	
 	// 목록 조회
 	function getList(param, callback, error) {
+	
 		$.ajax({
 			url: '../reply/',
 			data: param,
 			dataType: 'json',
 			success: function(data){
-				if(callback) callback(data);
+				if(callback)
+				// callback(data)
+				callback(data.replyCnt, data);
 			},
 			error: function(){ if(error) error(); }		
 		});		
 	}
 	
-	
+
 	return {add:add, getList:getList}
+	
 })();
