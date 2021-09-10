@@ -225,7 +225,7 @@
 					}
 					$('.chat').html(str);
 		
-					showReplyPage(datas.list.replyCnt);
+					showReplyPage(datas.replyCnt);
 				}
 			});
 		}
