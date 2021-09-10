@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.emp.mapper.DepartmentsMapper">
+
+	<!-- 목록조회 -->
+	<select id="getDeptList" resultType="departmentsVO">
+		SELECT * FROM DEPARTMENTS_TEST
+		ORDER BY DEPARTMENT_ID
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="readDept" resultType="departmentsVO">
+		SELECT * FROM DEPARTMENTS_TEST 
+		WHERE DEPARTMENT_ID = #{departmentId};
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertDept">
+		<selectKey keyProperty="departmentId" resultType="int" order="BEFORE">
+			SELECT DEPARTMENTS_TEST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO
+		DEPARTMENTS_TEST(
+					DEPARTMENT_ID
+					, DEPARTMENT_NAME)
+		VALUES(
+					#{departmentId}
+					, #{departmentName})
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateDept">
+		UPDATE DEPARTMENTS_TEST
+		SET DEPARTMENT_NAME = #{departmentName}
+		WHERE DEPARTMENT_ID = #{departmentId}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteDept">
+		DELETE DEPARTMENTS_TEST
+		WHERE DEPARTMENT_ID = #{departmentId}
+	</delete>
+
+</mapper>
