@@ -9,7 +9,8 @@
 	Hello world!  
 </h1>
 
-	<a href="${pageContext.request.contextPath}/emp/empList">Employees</a>
+	<a href="${pageContext.request.contextPath}/emp/empList">Employees</a><br>
+	<a href="${pageContext.request.contextPath}/dept">Departments</a>
 
 </body>
 </html>

@@ -12,11 +12,22 @@
 
 <script>
 	$(function(){
-		$('.read').on('click', function(){
+ 		$('.read').on('click', function(){
 			const employeeId = $(this).data('employeeid');
-			location.href = 'readEmp?employeeId=' + employeeId;
+			location.href = 'insertEmp?employeeId=' + employeeId;
 		});
+
+		
+		// 이메일을 활용해 단건 검색 (과제)
+/* 		$('.email').on('click', function(){
+			const email = $(this).data('email');
+			location.href = 'insertEmp?email=' + email;
+		}); */
+		
 	});
+	
+	
+	
 </script>
 
 </head>
@@ -37,14 +48,14 @@
 				<td>${emp.employeeId}<input type="hidden" id="employeeId" value="${emp.employeeId}"></td>
 				<td>${emp.firstName}</td>
 				<td>${emp.lastName}</td>
-				<td>${emp.email}</td>
+				<td class="email" data-email="${emp.email}">${emp.email}</td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd" value="${emp.hireDate}"/></td>
 				<td>${emp.jobId}</td>
 			</tr>
 			</c:forEach>
 		</table>
 		<br>
-		<button onclick="location.href='insertEmp'">등록</button>
+		<button onclick="location.href='insertEmp'">사원등록</button>
 	</div>
 
 </body>

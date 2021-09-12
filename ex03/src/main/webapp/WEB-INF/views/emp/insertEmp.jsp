@@ -68,10 +68,10 @@
 		// 원래 기능: enter 누르면 바로 submit이 실행되어버림.
 		// submit 막고 엔터키(키번호 13번) ajax가 실행되도록 한다.
 		$('#managerId').on('keydown', function(e){
-			e.preventDefault;
 			$('#name').val('');
 			if( $('#managerId').val() == '' ) return;
 			if(e.keyCode == 13){
+				e.preventDefault();
 				$.ajax({
 					url: 'ajaxEmp',
 					data: { employeeId: $('#managerId').val() },
@@ -113,7 +113,7 @@
 		}
 		
 		
-		// 등록버튼
+		// 등록버튼 ( 등록 및 수정 )
 		$('#btnRegister').on('click', function(){
 			if( validation() ){
 				insertFrm.submit();
@@ -121,11 +121,10 @@
 			
 		});
 		
-		
-		
-		// 이메일을 활용해 단건 검색 (과제)
-		
 		// 수정처리 (과제)
+/* 		$('#btnUpdate').on('click', function(){
+			insertFrm.submit();
+		}); */
 		
 		
 	});
@@ -200,8 +199,10 @@
 	
 			</table>
 			<br>
-			<button type="button" id="btnRegister">입력</button>&nbsp;&nbsp;
+			<button type="button" id="btnRegister">등록/수정</button>&nbsp;&nbsp;
+			<button formaction="deleteEmp">사원삭제</button>&nbsp;&nbsp;
 			<button type="button" onclick="location.href='empList'">목록으로</button>
+			<!-- <button type="button" id="btnUpdate">수정</button>&nbsp;&nbsp; -->
 		</form>
 	</div>
 	

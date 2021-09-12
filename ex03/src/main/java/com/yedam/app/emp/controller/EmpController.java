@@ -72,7 +72,8 @@ public class EmpController {
 	
 	// 등록페이지
 	@GetMapping("/insertEmp")
-	public String insertEmpForm() {
+	public String insertEmpForm(Model model, EmpVO emp) {
+		model.addAttribute("emp", empService.readEmp(emp));
 		return "/emp/insertEmp";
 	}
 	
