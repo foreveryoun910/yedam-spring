@@ -66,15 +66,16 @@ public class EmpController {
 	
 	// 단건조회, 수정페이지
 	@GetMapping("/readEmp")
-	public void readEmp(Model model, EmpVO emp) {
+	public String readEmp(Model model, EmpVO emp) {
 		model.addAttribute("emp", empService.readEmp(emp));
+		return "emp/readEmp";
 	}
 	
 	// 등록페이지
 	@GetMapping("/insertEmp")
 	public String insertEmpForm(Model model, EmpVO emp) {
 		model.addAttribute("emp", empService.readEmp(emp));
-		return "/emp/insertEmp";
+		return "emp/insertEmp";
 	}
 	
 	// 등록처리
@@ -88,7 +89,7 @@ public class EmpController {
 	// 수정페이지
 	@GetMapping("/updateEmp")
 	public String updateEmpForm() {
-		return "/emp/insertEmp";
+		return "emp/insertEmp";
 	}	
 	
 	// 수정처리

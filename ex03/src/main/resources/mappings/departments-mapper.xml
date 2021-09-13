@@ -11,7 +11,7 @@
 	<!-- 단건조회 -->
 	<select id="readDept" resultType="departmentsVO">
 		SELECT * FROM DEPARTMENTS_TEST 
-		WHERE DEPARTMENT_ID = #{departmentId};
+		WHERE DEPARTMENT_ID = #{departmentId}
 	</select>
 	
 	<!-- 등록 -->

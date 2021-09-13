@@ -39,8 +39,9 @@ public class DepartmentsController {
 	// ajax 단건조회
 	@GetMapping("/readDept/{departmentId}")
 	@ResponseBody
-	public DepartmentsVO readDept(@PathVariable int departmentId, Model model, DepartmentsVO dept) {
+	public DepartmentsVO readDept(@PathVariable("departmentId") int departmentId, Model model, DepartmentsVO dept) {
 		dept.setDepartmentId(departmentId);
+		model.addAttribute("dept", deptService.readDept(dept));
 		return deptService.readDept(dept);
 	}
 
