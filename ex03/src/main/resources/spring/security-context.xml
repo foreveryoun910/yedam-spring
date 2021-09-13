@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- security 적용 제외 -->
+	<security:http pattern="/css/**" security="none" />
+	<security:http pattern="/resources/**" security="none" />
+	
+	<!-- pattern: 앞에 반드시 / 붙여줘야 한다. -->
+	<security:http>
+		<security:intercept-url pattern="/top.jsp" access="permitAll()" />
+		
+		<!--  -->
+		<security:intercept-url pattern="/loginForm" access="permitAll()" />
+		<security:intercept-url pattern="/logout" access="permitAll()" />
+		
+		<security:intercept-url pattern="/admin/**" access="hasAuthority('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/**" access="isAuthenticated()" />
+		
+		<!--  -->
+		<security:form-login 
+				login-page="/loginForm"
+				login-processing-url="/login"
+				username-parameter="id"
+				password-parameter="password"
+				authentication-success-handler-ref="/customLogin"
+				default-target-url="/top.jsp" />
+		
+		<security:logout logout-url="/logout" logout-success-url="/top.jsp" />
+		<security:access-denied-handler error-page="/error/accessError.jsp" />
+		
+		<!-- CSRF 어택을 방지하기 위한 설정 -->
+		<security:csrf disabled="false" />
+	</security:http>
+	
+	
+	<!-- {noop}: none operation? 암호화 설정하지 말라는 옵션 -->
+	<!-- p.648 -->
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource" 
+				users-by-username-query="SELECT id, password, 1 
+										FROM users  WHERE id = ?"
+				authorities-by-username-query="SELECT id, 'ROLE_' || upper(role)
+												FROM users WHERE id = ?" />
+			<security:password-encoder hash="bcrypt" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
