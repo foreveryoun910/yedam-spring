@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbal.app.book.mapper.BookMapper">
+
+	<!-- 도서번호 조회 -->
+	<select id="readBook" resultType="com.dbal.app.book.domain.BookVO">
+			SELECT BOOK_NO + 1 
+			FROM (SELECT * FROM BOOK_TBL_06 ORDER BY BOOK_NO DESC) 
+			WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 도서정보 등록 -->
+	<insert id="insertBook">
+		<selectKey keyProperty="bookNo" resultType="int" order="BEFORE">
+			SELECT BOOK_NO + 1 
+			FROM (SELECT * FROM BOOK_TBL_06 ORDER BY BOOK_NO DESC) 
+			WHERE ROWNUM = 1
+		</selectKey>
+		
+		INSERT INTO BOOK_TBL_06(
+			BOOK_NO
+			, BOOK_NAME
+			, BOOK_COVERIMG
+			, BOOK_DATE
+			, BOOK_PRICE
+			, BOOK_PUBLISHER
+			, BOOK_INFO
+		)
+		VALUES(
+			#{bookNo}
+			, #{bookName}
+			, #{bookCoverimg}
+			, #{bookDate}
+			, #{bookPrice}
+			, #{bookPublisher}
+			, #{bookInfo}
+		)	
+	</insert>
+	
+	<!-- 도서목록 조회 -->
+	<select id="bookList" resultType="com.dbal.app.book.domain.BookVO">
+		SELECT * FROM BOOK_TBL_06
+	</select>
+	
+	<!-- 도서대여현황 조회 -->
+	<select id="readRentalBook" resultType="com.dbal.app.book.domain.BookVO">
+		SELECT B.BOOK_NO, B.BOOK_NAME, SUM(R.RENT_PRICE), COUNT(R.RENT_STATUS)
+		FROM BOOK_TBL_06 B
+		LEFT OUTER JOIN RENT_TBL_06 R
+		ON (B.BOOK_NO = R.BOOK_NO)
+		GROUP BY B.BOOK_NO, B.BOOK_NAME
+	</select>
+
+</mapper>
