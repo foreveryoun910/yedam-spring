@@ -4,18 +4,18 @@
 
 	<!-- 도서번호 조회 -->
 	<select id="readBook" resultType="com.dbal.app.book.domain.BookVO">
-			SELECT BOOK_NO + 1 
+			SELECT BOOK_NO + 1 AS BOOK_NO
 			FROM (SELECT * FROM BOOK_TBL_06 ORDER BY BOOK_NO DESC) 
 			WHERE ROWNUM = 1
 	</select>
 	
 	<!-- 도서정보 등록 -->
 	<insert id="insertBook">
-		<selectKey keyProperty="bookNo" resultType="int" order="BEFORE">
+<!-- 		<selectKey keyProperty="bookNo" resultType="int" order="BEFORE">
 			SELECT BOOK_NO + 1 
 			FROM (SELECT * FROM BOOK_TBL_06 ORDER BY BOOK_NO DESC) 
 			WHERE ROWNUM = 1
-		</selectKey>
+		</selectKey> -->
 		
 		INSERT INTO BOOK_TBL_06(
 			BOOK_NO
@@ -42,6 +42,7 @@
 		SELECT * FROM BOOK_TBL_06
 	</select>
 	
+	<!-- 1. vo를 하나 더 만들어서 한다.(alias 필수) 2. map으로 받아온다. -->
 	<!-- 도서대여현황 조회 -->
 	<select id="readRentalBook" resultType="com.dbal.app.book.domain.BookVO">
 		SELECT B.BOOK_NO, B.BOOK_NAME, SUM(R.RENT_PRICE), COUNT(R.RENT_STATUS)

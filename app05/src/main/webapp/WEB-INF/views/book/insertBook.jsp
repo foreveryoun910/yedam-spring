@@ -55,10 +55,11 @@
 	<div align="center">
 		<form id="frm" action="insertBook" method="post">
 			<table border="1">
-				<!-- <tr>
+				<tr>
+					<!-- 쿼리 alias를 안 줘서 화면에 출력이 안 되었던 거였음 -->
 					<th>도서번호</th>
 					<td><input id="bookNo" name="bookNo" value="${book.bookNo}"></td>
-				</tr> -->
+				</tr>
 				<tr>
 					<th>도서명</th>
 					<td><input id="bookName" name="bookName"></td>

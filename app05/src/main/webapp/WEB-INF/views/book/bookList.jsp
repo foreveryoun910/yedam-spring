@@ -25,7 +25,7 @@
 				<tr>
 					<td>${book.bookNo}</td>
 					<td>${book.bookName}</td>
-					<td>${book.bookCoverimg}</td>
+					<td><img src="${book.bookCoverimg}"></td>
 					<td><fmt:formatDate value="${book.bookDate}" pattern="yyyy/MM/dd"/></td>
 					<td><fmt:formatNumber value="${book.bookPrice}" type="number" maxFractionDigits="3" /></td>
 					<td>${book.bookPublisher}</td>
